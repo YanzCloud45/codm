@@ -16,10 +16,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - uses: android-actions/setup-android@v3
-
       - name: Install Android SDK and NDK
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;27.2.12479018"
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-35" \
+            "build-tools;35.0.0" \
+            "ndk;27.2.12479018"
 
       - name: Build ARM64 root helper
         run: |
@@ -39,4 +44,3 @@ jobs:
         with:
           name: CODM-Root-Tutorial
           path: app/build/outputs/apk/debug/app-debug.apk
-
